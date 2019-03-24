@@ -15,6 +15,7 @@ public:
 protected:
 	void read();
 	void prepareObjects(char*);
+	void setClientIP();
 	bool validateRequest();
 	void serve();
 

@@ -13,7 +13,9 @@ public:
 	void close();
 
 	string method = "UNDEFINED";
-	string uri;
+	string uri = "/";
+	string httpVersion = "0";
+	string ip = "0.0.0.0";
 	unordered_map<string, string> headers;
 };
 
