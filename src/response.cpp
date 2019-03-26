@@ -8,8 +8,6 @@
 #include "response.hpp"
 #include "string.hpp"
 
-using namespace std;
-
 void Response::setFileDescriptor(int fd)
 {
 	if (fileDescriptor == -1)
@@ -18,7 +16,7 @@ void Response::setFileDescriptor(int fd)
 	}
 }
 
-void Response::setHeader(string name, string value)
+void Response::setHeader(std::string name, std::string value)
 {
 	name = sanitizeHeaderKey(name);
 	headers[name] = value;
@@ -29,7 +27,7 @@ void Response::setStatus(int status)
 	this->status = std::to_string(status);
 }
 
-void Response::write(string response)
+void Response::write(std::string response)
 {
 	data = response;
 }
@@ -72,23 +70,23 @@ void Response::writeHeaders()
 {
 	for ( auto it = headers.begin(); it != headers.end(); ++it )
     {
-		string header = string(it->first);
+		std::string header = std::string(it->first);
 		header.append(": ").append(it->second);
 		response.append(header).append("\r\n");
 	}
 
 	if (headers.count("Content-Length") == 0)
 	{
-		string header("Content-Length: ");
-		string size = to_string(data.size());
+		std::string header("Content-Length: ");
+		std::string size = std::to_string(data.size());
 		header.append(size);
 	}
 }
 
-string Response::sanitizeHeaderKey(string name)
+std::string Response::sanitizeHeaderKey(std::string name)
 {
-	string newName("");
-	vector<string> tokens = split(name, "-");
+	std::string newName("");
+	std::vector<std::string> tokens = split(name, "-");
 	for (int i = 0; i < tokens.size(); i++)
 	{
 		tokens[i] = toLowercase(tokens[i]);

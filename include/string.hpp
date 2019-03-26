@@ -4,15 +4,13 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+std::vector<std::string> split(std::string s, std::string delim = " ");
 
-vector<string> split(string s, string delim = " ");
-
-string toLowercase(string s);
-string toUppercase(string s);
-string replace_all(string s, string pattern, string replacer);
-string ltrim(string s);
-string rtrim(string s);
-string trim(string s);
+std::string toLowercase(std::string s);
+std::string toUppercase(std::string s);
+std::string replace_all(std::string s, std::string pattern, std::string replacer);
+std::string ltrim(std::string s);
+std::string rtrim(std::string s);
+std::string trim(std::string s);
 
 #endif

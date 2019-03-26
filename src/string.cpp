@@ -5,14 +5,12 @@
 
 #include "string.hpp"
 
-using namespace std;
-
-vector<string> split(string s, string delim /*= " "*/)
+std::vector<std::string> split(std::string s, std::string delim)
 {
-	vector<string> v;
+	std::vector<std::string> v;
 	size_t current = 0, previous = 0;
 	current = s.find(delim);
-	while (current != string::npos) {
+	while (current != std::string::npos) {
 		v.push_back(s.substr(previous, current - previous));
 		previous = current + delim.length();
 		current = s.find(delim, previous);
@@ -22,22 +20,22 @@ vector<string> split(string s, string delim /*= " "*/)
 	return v;
 }
 
-string toLowercase(string s)
+std::string toLowercase(std::string s)
 {
 	transform(s.begin(), s.end(), s.begin(), ::tolower);
 	return s;
 }
 
-string toUppercase(string s)
+std::string toUppercase(std::string s)
 {
 	transform(s.begin(), s.end(), s.begin(), ::toupper);
 	return s;
 }
 
-string replace_all(string s, string pattern, string replacer)
+std::string replace_all(std::string s, std::string pattern, std::string replacer)
 {
 	size_t i;
-	while ((i = s.find(pattern)) != string::npos)
+	while ((i = s.find(pattern)) != std::string::npos)
 	{
 		s.replace(i, pattern.length(), replacer);
 	}
@@ -45,13 +43,13 @@ string replace_all(string s, string pattern, string replacer)
 	return s;
 }
 
-string ltrim(string s)
+std::string ltrim(std::string s)
 {
 	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) {return !std::isspace(c);}));
 	return s;
 }
 
-string rtrim(string s)
+std::string rtrim(std::string s)
 {
 	s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
         return !std::isspace(ch);
@@ -59,7 +57,7 @@ string rtrim(string s)
     return s;
 }
 
-string trim(string s)
+std::string trim(std::string s)
 {
 	s = ltrim(s);
 	return rtrim(s);

@@ -1,6 +1,8 @@
 #ifndef HTTP__REQUEST_PARSER__
 #define HTTP__REQUEST_PARSER__
 
+#include <string>
+
 #include "i_request_friend.hpp"
 #include "request.hpp"
 #include "string.hpp"

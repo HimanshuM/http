@@ -5,14 +5,12 @@
 #include <any>
 #include <string>
 
-using namespace std;
-
 class IContentParser
 {
 public:
 	virtual ~IContentParser() {}
 	virtual void registerSelf() = 0;
-	virtual unordered_map<string, any> *parse(string) = 0;
+	virtual std::unordered_map<std::string, std::any> *parse(std::string) = 0;
 };
 
 #endif

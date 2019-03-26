@@ -4,30 +4,28 @@
 #include <string>
 #include <unordered_map>
 
-using namespace std;
-
 class Response
 {
 public:
 	void setFileDescriptor(int);
-	void setHeader(string, string);
+	void setHeader(std::string, std::string);
 	void setStatus(int);
-	void write(string);
+	void write(std::string);
 	void end();
 	void renderFalse();
 
 protected:
 	void respond();
 	void writeHeaders();
-	string sanitizeHeaderKey(string);
+	std::string sanitizeHeaderKey(std::string);
 
 	int fileDescriptor = -1;
 	bool responded = false;
 
-	string status = "200";
-	unordered_map<string, string> headers;
-	string response;
-	string data = "";
+	std::string status = "200";
+	std::unordered_map<std::string, std::string> headers;
+	std::string response;
+	std::string data = "";
 };
 
 #endif

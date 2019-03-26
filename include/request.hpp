@@ -9,47 +9,45 @@
 #include "i_request_friend.hpp"
 #include "property.hpp"
 
-using namespace std;
-
 class Request
 {
 public:
 	Request(IRequestFriend *requestFriend);
 	void close(IRequestFriend *caller);
 
-	string method();
-	void method(string method, IRequestFriend *caller);
+	std::string method();
+	void method(std::string method, IRequestFriend *caller);
 
-	string uri();
-	void uri(string uri, IRequestFriend *caller);
+	std::string uri();
+	void uri(std::string uri, IRequestFriend *caller);
 
-	string httpVersion();
-	void httpVersion(string httpVersion, IRequestFriend *caller);
+	std::string httpVersion();
+	void httpVersion(std::string httpVersion, IRequestFriend *caller);
 
-	string ip();
-	void ip(string ip, IRequestFriend *caller);
+	std::string ip();
+	void ip(std::string ip, IRequestFriend *caller);
 
-	string rawPost();
-	void rawPost(string rawPost, IRequestFriend *caller, bool parseNow = false);
+	std::string rawPost();
+	void rawPost(std::string rawPost, IRequestFriend *caller, bool parseNow = false);
 
-	unordered_map<string, string> headers();
-	void addHeader(string key, string value, IRequestFriend *caller);
+	std::unordered_map<std::string, std::string> headers();
+	void addHeader(std::string key, std::string value, IRequestFriend *caller);
 
 	void changeFriend(IRequestFriend *newFriend, IRequestFriend *caller);
 
-	unordered_map<string, any> *post;
+	std::unordered_map<std::string, std::any> *post;
 
 protected:
 	void parseRawPost();
 
 	bool isCallerAuthorized(IRequestFriend *caller);
 
-	string _method;
-	string _uri;
-	string _httpVersion;
-	string _ip;
-	string _rawPost;
-	unordered_map<string, string> _headers;
+	std::string _method;
+	std::string _uri;
+	std::string _httpVersion;
+	std::string _ip;
+	std::string _rawPost;
+	std::unordered_map<std::string, std::string> _headers;
 
 	IRequestFriend *_requestFriend;
 

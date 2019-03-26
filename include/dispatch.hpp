@@ -1,8 +1,6 @@
 #ifndef HTTP__DISPATCH__
 #define HTTP__DISPATCH__
 
-#include <string>
-
 #include "i_request_friend.hpp"
 #include "request.hpp"
 #include "response.hpp"

@@ -16,8 +16,6 @@
 #include "request_parser.hpp"
 #include "string.hpp"
 
-using namespace std;
-
 void Dispatch::operator()()
 {
 	read();
@@ -28,7 +26,7 @@ void Dispatch::read()
 	char *data = new char[maxPostSize];
 	memset(data, '\0', maxPostSize);
 	int bytesRead = 0;
-	if ((bytesRead = recv(this->fileDescriptor, data, this->maxPostSize, 0)) < 0)
+	if ((bytesRead = recv(fileDescriptor, data, maxPostSize, 0)) < 0)
 	{
 		die();
 	}
@@ -58,7 +56,7 @@ void Dispatch::verifyRequestBodyIntegrity()
 	if (request->headers().count("CONTENT_LENGTH") > 0)
 	{
 		int contentLength = stoi(request->headers()["CONTENT_LENGTH"]);
-		string rawPost = request->rawPost();
+		std::string rawPost = request->rawPost();
 		while (rawPost.length() < contentLength)
 		{
 			char *data = new char[maxPostSize];

@@ -7,7 +7,7 @@ class XWwwFormUrlEncoded : public IContentParser
 {
 public:
 	void registerSelf();
-	unordered_map<string, any> *parse(string);
+	std::unordered_map<std::string, std::any> *parse(std::string);
 };
 
 #endif

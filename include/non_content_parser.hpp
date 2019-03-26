@@ -2,16 +2,16 @@
 #define HTTP__NON_CONTENT_PARSER__
 
 #include <unordered_map>
+#include <string>
+#include <any>
 
 #include "i_content_parser.hpp"
-
-using namespace std;
 
 class NonContentParser : public IContentParser
 {
 public:
 	void registerSelf();
-	unordered_map<string, any> *parse(string);
+	std::unordered_map<std::string, std::any> *parse(std::string);
 };
 
 #endif

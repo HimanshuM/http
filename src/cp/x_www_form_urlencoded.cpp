@@ -6,21 +6,19 @@
 #include "content_parsers.hpp"
 #include "string.hpp"
 
-using namespace std;
-
 void XWwwFormUrlEncoded::registerSelf()
 {
 	ContentParsers::registerContentParser("application/x-www-form-urlencoded", this);
 }
 
-unordered_map<string, any> *XWwwFormUrlEncoded::parse(string rawPost)
+std::unordered_map<std::string, std::any> *XWwwFormUrlEncoded::parse(std::string rawPost)
 {
-	unordered_map<string, any> *post = new unordered_map<string, any>();
+	std::unordered_map<std::string, std::any> *post = new std::unordered_map<std::string, std::any>();
 
-	vector<string> tokens = split(rawPost, "&");
-	for (std::vector<string>::iterator it = tokens.begin(); it != tokens.end(); ++it)
+	std::vector<std::string> tokens = split(rawPost, "&");
+	for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); ++it)
 	{
-		vector<string> pair = split(*it, "=");
+		std::vector<std::string> pair = split(*it, "=");
 		(*post)[pair[0]] = pair[1];
 	}
 

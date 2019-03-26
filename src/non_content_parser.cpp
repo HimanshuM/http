@@ -6,7 +6,7 @@ void NonContentParser::registerSelf()
 	ContentParsers::registerContentParser("*/*", this);
 }
 
-unordered_map<string, any> *NonContentParser::parse(string rawPost)
+std::unordered_map<std::string, std::any> *NonContentParser::parse(std::string rawPost)
 {
-	return new unordered_map<string, any>();
+	return new std::unordered_map<std::string, std::any>();
 }

@@ -3,19 +3,19 @@
 #include "content_parsers.hpp"
 #include "non_content_parser.hpp"
 
-unordered_map<string, IContentParser*> ContentParsers::_contentParsers;
+std::unordered_map<std::string, IContentParser*> ContentParsers::_contentParsers;
 
-void ContentParsers::registerContentParser(string contentType, IContentParser *parser)
+void ContentParsers::registerContentParser(std::string contentType, IContentParser *parser)
 {
 	_contentParsers[contentType] = parser;
 }
 
-IContentParser *ContentParsers::getContentParser(string contentType)
+IContentParser *ContentParsers::getContentParser(std::string contentType)
 {
 	auto it = _contentParsers.begin();
 	while (it != _contentParsers.end())
 	{
-		if (contentType.find(it->first) != string::npos)
+		if (contentType.find(it->first) != std::string::npos)
 		{
 			return it->second;
 		}

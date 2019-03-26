@@ -5,8 +5,6 @@
 #include "i_content_parser.hpp"
 #include "content_parsers.hpp"
 
-using namespace std;
-
 Request::Request(IRequestFriend *requestFriend)
 {
 	_requestFriend = requestFriend;
@@ -18,12 +16,12 @@ bool Request::isCallerAuthorized(IRequestFriend *caller)
 	return caller == _requestFriend;
 }
 
-string Request::method()
+std::string Request::method()
 {
 	return _method;
 }
 
-void Request::method(string method, IRequestFriend *caller)
+void Request::method(std::string method, IRequestFriend *caller)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -33,12 +31,12 @@ void Request::method(string method, IRequestFriend *caller)
 	_method = method;
 }
 
-string Request::uri()
+std::string Request::uri()
 {
 	return _uri;
 }
 
-void Request::uri(string uri, IRequestFriend *caller)
+void Request::uri(std::string uri, IRequestFriend *caller)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -48,12 +46,12 @@ void Request::uri(string uri, IRequestFriend *caller)
 	_uri = uri;
 }
 
-string Request::httpVersion()
+std::string Request::httpVersion()
 {
 	return _httpVersion;
 }
 
-void Request::httpVersion(string httpVersion, IRequestFriend *caller)
+void Request::httpVersion(std::string httpVersion, IRequestFriend *caller)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -63,12 +61,12 @@ void Request::httpVersion(string httpVersion, IRequestFriend *caller)
 	_httpVersion = httpVersion;
 }
 
-string Request::ip()
+std::string Request::ip()
 {
 	return _ip;
 }
 
-void Request::ip(string ip, IRequestFriend *caller)
+void Request::ip(std::string ip, IRequestFriend *caller)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -78,12 +76,12 @@ void Request::ip(string ip, IRequestFriend *caller)
 	_ip = ip;
 }
 
-string Request::rawPost()
+std::string Request::rawPost()
 {
 	return _rawPost;
 }
 
-void Request::rawPost(string rawPost, IRequestFriend *caller, bool parseNow)
+void Request::rawPost(std::string rawPost, IRequestFriend *caller, bool parseNow)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -98,12 +96,12 @@ void Request::rawPost(string rawPost, IRequestFriend *caller, bool parseNow)
 	}
 }
 
-unordered_map<string, string> Request::headers()
+std::unordered_map<std::string, std::string> Request::headers()
 {
 	return _headers;
 }
 
-void Request::addHeader(string key, string value, IRequestFriend *caller)
+void Request::addHeader(std::string key, std::string value, IRequestFriend *caller)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -136,7 +134,7 @@ void Request::parseRawPost()
 
 	for (auto it = post->begin(); it != post->end(); ++it)
 	{
-		cout<<it->first<<" => "<<any_cast<string>(it->second)<<endl;
+		std::cout<<it->first<<" => "<<std::any_cast<std::string>(it->second)<<std::endl;
 	}
 }
 

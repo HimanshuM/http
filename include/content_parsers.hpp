@@ -6,16 +6,14 @@
 
 #include "i_content_parser.hpp"
 
-using namespace std;
-
 class ContentParsers
 {
 public:
-	static void registerContentParser(string contentType, IContentParser *parser);
-	static IContentParser *getContentParser(string contentType);
+	static void registerContentParser(std::string contentType, IContentParser *parser);
+	static IContentParser *getContentParser(std::string contentType);
 
 protected:
-	static unordered_map<string, IContentParser*> _contentParsers;
+	static std::unordered_map<std::string, IContentParser*> _contentParsers;
 };
 
 #endif
