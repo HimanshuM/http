@@ -1,5 +1,5 @@
 /* Command to compile the code:
-	g++ main.cpp src/* -Iinclude -o http -pthread
+	g++ main.cpp src/* -Iinclude -o bin/Debug/http -pthread -std=c++17
 */
 #include "server.hpp"
 

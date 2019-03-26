@@ -8,9 +8,9 @@
 
 using namespace std;
 
-Request RequestParser::parse(string data)
+Request *RequestParser::parse(string data, Dispatch *obj)
 {
-	Request req;
+	Request *req = new Request(this);
 	vector<string> tokens = split(data, "\r\n");
 	if (tokens.size() == 0)
 	{
@@ -22,9 +22,9 @@ Request RequestParser::parse(string data)
 	{
 		return req;
 	}
-	req.method = requestType[0];
-	req.uri = requestType[1];
-	req.httpVersion = requestType[2].substr(requestType[2].find("HTTP/") + strlen("HTTP/"));
+	req->method(requestType[0], this);
+	req->uri(requestType[1], this);
+	req->httpVersion(requestType[2].substr(requestType[2].find("HTTP/") + strlen("HTTP/")), this);
 
 	int i = 1;
 	while (tokens[i] != "")
@@ -37,10 +37,22 @@ Request RequestParser::parse(string data)
 		// key = key.substr(0, key.find(":"));
 		key = replace_all(key, "-", "_");
 		key = toUppercase(key);
-		req.headers[key] = trim(value);
+		req->addHeader(key, trim(value), this);
 
 		i++;
 	}
+
+	string rawPost = "";
+	if (!tokens[++i].empty())
+	{
+		while (i < tokens.size())
+		{
+			rawPost += tokens[i++] + "\r\n";
+		}
+	}
+
+	req->rawPost(rawPost, this);
+	req->changeFriend(obj, this);
 
 	return req;
 }

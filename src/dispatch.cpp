@@ -16,6 +16,8 @@
 #include "request_parser.hpp"
 #include "string.hpp"
 
+using namespace std;
+
 void Dispatch::operator()()
 {
 	read();
@@ -31,9 +33,6 @@ void Dispatch::read()
 		die();
 	}
 
-	std::cout<<data<<std::endl;
-	std::cout<<"Bytes read: "<<bytesRead<<std::endl;
-
 	prepareObjects(data);
 	if (!validateRequest())
 	{
@@ -45,24 +44,53 @@ void Dispatch::read()
 
 void Dispatch::prepareObjects(char *data)
 {
-	request = RequestParser::parse(data);
+	RequestParser parser;
+	request = parser.parse(data, this);
+
+	verifyRequestBodyIntegrity();
 	setClientIP();
 
 	response.setFileDescriptor(fileDescriptor);
 }
 
+void Dispatch::verifyRequestBodyIntegrity()
+{
+	if (request->headers().count("CONTENT_LENGTH") > 0)
+	{
+		int contentLength = stoi(request->headers()["CONTENT_LENGTH"]);
+		string rawPost = request->rawPost();
+		while (rawPost.length() < contentLength)
+		{
+			char *data = new char[maxPostSize];
+			memset(data, '\0', maxPostSize);
+			int bytesRead = 0;
+			if ((bytesRead = recv(fileDescriptor, data, maxPostSize, 0)) < 0)
+			{
+				die();
+			}
+
+			rawPost += data;
+		}
+
+		request->rawPost(rawPost, this);
+	}
+}
+
 void Dispatch::setClientIP()
 {
 	char s[INET6_ADDRSTRLEN];
-	request.ip = inet_ntop(clientAddr->ss_family,
-		get_in_addr((struct sockaddr *)clientAddr),
-		s, sizeof s
+	request->ip(
+		inet_ntop(clientAddr->ss_family,
+			get_in_addr((struct sockaddr *)clientAddr),
+			s, sizeof s
+		),
+		this
 	);
 }
 
 bool Dispatch::validateRequest()
 {
-	if (request.method == "UNDEFINED")
+	if (request->method() == "UNDEFINED")
 	{
 		response.renderFalse();
 		return false;
@@ -76,13 +104,20 @@ void Dispatch::serve()
 	if (debugLevel < WARN)
 	{
 		printf("INFO: New connection for %s from %s\n",
-			request.uri.c_str(),
-			request.ip.c_str()
+			request->uri().c_str(),
+			request->ip().c_str()
 		);
 	}
 
 	response.write("<html><head><title>Himanshu's HTTP Server</title></head><body><h2>It Works!</h2></body></html>");
+
+	close();
+}
+
+void Dispatch::close()
+{
+	request->close(this);
 	response.end();
 
-	close(fileDescriptor);
+	::close(fileDescriptor);
 }
