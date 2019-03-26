@@ -1,6 +1,9 @@
+#include <iostream>
+#include <string>
+
 #include "request.hpp"
 #include "i_content_parser.hpp"
-#include "non_content_parser.hpp"
+#include "content_parsers.hpp"
 
 using namespace std;
 
@@ -8,11 +11,6 @@ Request::Request(IRequestFriend *requestFriend)
 {
 	_requestFriend = requestFriend;
 	reset();
-}
-
-void Request::registerContentParser(string contentType, IContentParser *parser)
-{
-	_contentParsers[contentType] = parser;
 }
 
 bool Request::isCallerAuthorized(IRequestFriend *caller)
@@ -85,7 +83,7 @@ string Request::rawPost()
 	return _rawPost;
 }
 
-void Request::rawPost(string rawPost, IRequestFriend *caller)
+void Request::rawPost(string rawPost, IRequestFriend *caller, bool parseNow)
 {
 	if (!isCallerAuthorized(caller))
 	{
@@ -93,6 +91,11 @@ void Request::rawPost(string rawPost, IRequestFriend *caller)
 	}
 
 	_rawPost = rawPost;
+
+	if (parseNow)
+	{
+		parseRawPost();
+	}
 }
 
 unordered_map<string, string> Request::headers()
@@ -128,8 +131,13 @@ void Request::parseRawPost()
 		return;
 	}
 
-	IContentParser *contentParser = getContentParser();
+	IContentParser *contentParser = ContentParsers::getContentParser(_headers["CONTENT_TYPE"]);
 	post = contentParser->parse(_rawPost);
+
+	for (auto it = post->begin(); it != post->end(); ++it)
+	{
+		cout<<it->first<<" => "<<any_cast<string>(it->second)<<endl;
+	}
 }
 
 void Request::close(IRequestFriend *caller)
@@ -148,20 +156,4 @@ void Request::reset()
 	_ip = "0.0.0.0";
 	_rawPost = "";
 	_headers.clear();
-	_contentParsers.clear();
-}
-
-IContentParser *Request::getContentParser()
-{
-	auto it = _contentParsers.begin();
-	while (it != _contentParsers.end())
-	{
-		if (_headers["CONTENT_TYPE"].find(it->first))
-		{
-			return it->second;
-		}
-		it++;
-	}
-
-	return new NonContentParser;
 }

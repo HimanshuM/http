@@ -11,6 +11,7 @@ class IContentParser
 {
 public:
 	virtual ~IContentParser() {}
+	virtual void registerSelf() = 0;
 	virtual unordered_map<string, any> *parse(string) = 0;
 };
 

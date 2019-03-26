@@ -72,7 +72,16 @@ void Dispatch::verifyRequestBodyIntegrity()
 			rawPost += data;
 		}
 
-		request->rawPost(rawPost, this);
+		if (rawPost.back() == '\n')
+		{
+			rawPost.erase(rawPost.size() - 1);
+			if (rawPost.back() == '\r')
+			{
+				rawPost.erase(rawPost.size() - 1);
+			}
+		}
+
+		request->rawPost(rawPost, this, true);
 	}
 }
 

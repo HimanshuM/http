@@ -20,6 +20,7 @@ public:
 
 protected:
 	void dispatch(int, struct sockaddr_storage*);
+	void setupContentParsers();
 
 	struct addrinfo *serverInfo;
 	char *port;

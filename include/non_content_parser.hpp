@@ -10,7 +10,8 @@ using namespace std;
 class NonContentParser : public IContentParser
 {
 public:
-	unordered_map<string, any> *parse(string rawPost);
+	void registerSelf();
+	unordered_map<string, any> *parse(string);
 };
 
 #endif

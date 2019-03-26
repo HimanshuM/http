@@ -13,6 +13,7 @@
 #include "error.hpp"
 #include "dispatch.hpp"
 #include "ip_helper.hpp"
+#include "cp/x_www_form_urlencoded.hpp"
 
 Server::~Server()
 {
@@ -26,6 +27,8 @@ Server::~Server()
 
 void Server::initialize()
 {
+	setupContentParsers();
+
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof hints);
 	hints.ai_family = AF_UNSPEC;     // don't care IPv4 or IPv6
@@ -84,4 +87,10 @@ void Server::dispatch(int request_fd, struct sockaddr_storage *client_addr)
 	std::thread tRequest(req);
 	tRequest.join();
 	// req();
+}
+
+void Server::setupContentParsers()
+{
+	XWwwFormUrlEncoded *cp = new XWwwFormUrlEncoded;
+	cp->registerSelf();
 }
