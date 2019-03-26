@@ -132,10 +132,10 @@ void Request::parseRawPost()
 	IContentParser *contentParser = ContentParsers::getContentParser(_headers["CONTENT_TYPE"]);
 	post = contentParser->parse(_rawPost);
 
-	for (auto it = post->begin(); it != post->end(); ++it)
-	{
-		std::cout<<it->first<<" => "<<std::any_cast<std::string>(it->second)<<std::endl;
-	}
+	// for (auto it = post->begin(); it != post->end(); ++it)
+	// {
+	// 	std::cout<<it->first<<" => "<<std::any_cast<std::string>(it->second)<<std::endl;
+	// }
 }
 
 void Request::close(IRequestFriend *caller)
